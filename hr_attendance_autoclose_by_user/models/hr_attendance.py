@@ -5,6 +5,7 @@
 from odoo import api, fields, models
 from datetime import datetime
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
+import logging
 
 
 class HrAttendance(models.Model):
@@ -20,12 +21,12 @@ class HrAttendance(models.Model):
         for att in stale_attendances:
             check_in = datetime.strptime(
                     att.check_in, DEFAULT_SERVER_DATETIME_FORMAT)
-            intervals = att.employee_id.calendar_id.\
-                get_working_intervals_of_day(check_in)
+            intervals = att.employee_id.resource_calendar_id.\
+                _get_day_work_intervals(check_in)
             if intervals:
-                date_end_day = intervals[-1][-1]
+                date_end_day = intervals[-1][1]
                 if date_end_day <= fields.datetime.now():
-                    vals = {'check_out': intervals[-1][-1]}
+                    vals = {'check_out': intervals[-1][1]}
                     if reason:
                         vals['attendance_reason_ids'] = [(4, reason.id)]
                     att.write(vals)
