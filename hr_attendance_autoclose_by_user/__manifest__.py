@@ -4,7 +4,7 @@
 
 {
     'name': 'HR Attendance Auto Close By User',
-    'version': '10.0.1.0.0',
+    'version': '11.0.1.0.0',
     'category': 'Human Resources',
     'summary': 'Close stale Attendances',
     'website': 'https://www.qubiq.es',
